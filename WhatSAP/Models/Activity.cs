@@ -1,48 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
 
 namespace WhatSAP.Models
 {
     public partial class Activity
     {
-        public Activity()
-        {
-            Booking = new HashSet<Booking>();
-            Comment = new HashSet<Comment>();
-        }
-
         public long ActivityId { get; set; }
 
-        //private string _key;
-
-        //public string Key
-        //{
-        //    get
-        //    {
-        //        if (_key == null)
-        //        {
-        //            _key = Regex.Replace(ActivityName.ToLower(), "[^a-z0-9]", "-");
-        //        }
-        //        return _key;
-        //    }
-        //    set { _key = value; }
-        //}
-
-        [Required]
-        [DataType(DataType.Text)]
-        [Display(Name = "Activity Name")]
+        [Display(Name="Activity Name")]
         public string ActivityName { get; set; }
 
-        [Required]
-        [MinLength(30, ErrorMessage = "Description must be at least 30 characters long!")]
-        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        [Display(Name = "Activity Date")]
+        [Display(Name="Category")]
+        public long CategoryId { get; set; }
+        public virtual Category Category { get; set; }
+
+        [Display(Name = "Date")]
         public DateTime ActivityDate { get; set; }
 
+        [Display(Name = "Address")]
         public long AddressId { get; set; }
         public virtual Address Address { get; set; }
 
@@ -52,11 +30,9 @@ namespace WhatSAP.Models
 
         public decimal Rate { get; set; }
 
-        [Required]
+        [Display(Name = "Client")]
         public long ClientId { get; set; }
         public virtual Client Client { get; set; }
 
-        public ICollection<Booking> Booking { get; set; }
-        public ICollection<Comment> Comment { get; set; }
     }
 }
