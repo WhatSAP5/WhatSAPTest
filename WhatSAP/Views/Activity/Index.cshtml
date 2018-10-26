@@ -5,87 +5,53 @@
 }
 
 <h2>Activity List</h2>
-
-<p>
-    <a asp-action="Create">Create New Activity</a>
-</p>
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create">Create New Activity</a>
+    </p>
+}
 
 @*<p class="pager">
-    @if (ViewBag.HasPreviousPage)
-    {
-        <a class="prev" href="@Url.Action("Index", "Activity" , new { page=ViewBag.PreviousPage })">
-            &lt; Previous
-        </a>
-    }
+        @if (ViewBag.HasPreviousPage)
+        {
+            <a class="prev" href="@Url.Action("Index", "Activity" , new { page=ViewBag.PreviousPage })">
+                &lt; Previous
+            </a>
+        }
 
-    @if (ViewBag.HasNextPage)
-    {
-        <a class="next" href="@Url.Action("Index", "Activity" , new { page=ViewBag.NextPage })">
-            Next &gt;
-        </a>
-    }
-</p>*@
+        @if (ViewBag.HasNextPage)
+        {
+            <a class="next" href="@Url.Action("Index", "Activity" , new { page=ViewBag.NextPage })">
+                Next &gt;
+            </a>
+        }
+    </p>*@
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ActivityName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ActivityDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Capacity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Client)
-            </th>
+<div class="row">
+    <div class="col-sm-6">
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            if (i > 0 && i % 3 == 0)
+            {
+            @:</div><div class="row">
+                <br />
+            }
 
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ActivityName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ActivityDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Capacity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address.Address1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Client.FirstName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ActivityId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ActivityId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ActivityId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+            <div class="card">
+                <img class="card-img-top" src="~/images/activities/@(Model.ElementAt(i).Key).jpg" alt="@Model.ElementAt(i).ActivityName" />
+                <div class="card-body">
+                    <h5 class="card-title">@Model.ElementAt(i).ActivityName</h5>
+                    <p class="card-text">
+                        @Model.ElementAt(i).Description <br />
+                        Price: $@Model.ElementAt(i).Price per person
+                    </p>
+                    <a class="btn btn-primary" href="https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
+                        See Details
+                        @*TODO: Should be replaced! Calling Details method in Activity Controller by passing the activity ID*@
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
