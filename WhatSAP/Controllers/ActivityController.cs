@@ -192,7 +192,7 @@ namespace WhatSAP.Controllers
         //Search by Title
         // SEARCH: Activity/Search/{keyworkd}
         [HttpPost, Route("search/{keyword}")]
-        public IActionResult SearchActivity(string keyword)
+        public IActionResult SearchResult(string keyword)
         {
             if (keyword == null)
             {
@@ -206,7 +206,7 @@ namespace WhatSAP.Controllers
         //Search by Price
         // SEARCH: Activity/Search/{keyworkd}
         [HttpPost, Route("search/{keyword}")]
-        public IActionResult SearchActivity(double price)
+        public IActionResult SearchResult(double price)
         {
             var result = _context.Activity.Where(x => x.Price <= price).ToArray();
             return View(result);
@@ -229,11 +229,6 @@ namespace WhatSAP.Controllers
         [HttpPost, Route("search/{category}")]
         public IActionResult SearchResult(long categoryId, string category)
         {
-            if(categoryId == null)
-            {
-                return NotFound();
-            }
-            
             var result = _context.Activity.Where(x => x.CategoryId == categoryId).ToArray();
             return View(result);
         }

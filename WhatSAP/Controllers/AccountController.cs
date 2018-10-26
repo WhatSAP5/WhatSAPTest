@@ -15,11 +15,13 @@ namespace WhatSAP.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signinManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly WhatSAPContext _context;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signinManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signinManager, WhatSAPContext context)
         {
             _userManager = userManager;
             _signinManager = signinManager;
+            _context = context;
         }
 
         [HttpGet, Route("login")]
@@ -83,6 +85,14 @@ namespace WhatSAP.Controllers
             if (!ModelState.IsValid)
                 return View(registration);
 
+            var nCustomer = new Customer();
+            nCustomer.FirstName = registration.FirstName;
+            nCustomer.LastName = registration.LastName;
+            nCustomer.DateOfBirth = registration.DateOfBirth;
+            nCustomer.Email = registration.EmailAddress;
+            nCustomer.Password = registration.Password;
+            nCustomer.Phone = registration.Phone;
+
             var newUser = new ApplicationUser
             {
                 Email = registration.EmailAddress,
@@ -100,6 +110,9 @@ namespace WhatSAP.Controllers
 
                 return View();
             }
+
+            _context.Customer.Add(nCustomer);
+            _context.SaveChanges();
 
             return RedirectToAction("Login");
         }
