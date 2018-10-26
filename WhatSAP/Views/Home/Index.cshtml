@@ -53,7 +53,7 @@
                 <p>
                     What do you love? <br />
                     Do more of it with WhatSAP! <br />
-                    <a class="btn btn-primary" href="@Url.Action("Register", "Account")" title="register">
+                    <a class="btn btn-primary" href="@Url.Action("ChooseStatus", "Account")" title="register">
                         Register Now!
                     </a>
                 </p>
@@ -122,8 +122,8 @@
                 <br />
             }
             <div class="col-md text-center">
-                <a href="#">
-                    @*TODO: Implement Sorting activity by category and link !*@
+                <a href="@Url.Action("SearchResult", "Activity", new { categoryId = @Model.ElementAt(i).CategoryId, category = @Model.ElementAt(i).CategoryName }) ">
+                    @*TODO: Implement Search activity by category and link !*@
                     <img src="~/images/categories/@(Model.ElementAt(i).CategoryId)_icon.svg" alt="@Model.ElementAt(i).CategoryName" width="75" height="75" /><br />
                     @Model.ElementAt(i).CategoryName
                 </a>

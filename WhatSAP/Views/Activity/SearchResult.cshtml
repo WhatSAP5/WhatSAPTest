@@ -1,32 +1,9 @@
 ﻿@model IEnumerable<WhatSAP.Models.Activity>
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "SearchResult";
 }
 
-<h2>Activity List</h2>
-@if (User.Identity.IsAuthenticated)
-{
-    <p>
-        <a asp-action="Create">Create New Activity</a>
-    </p>
-}
-
-<p class="pager">
-    @if (ViewBag.HasPreviousPage)
-    {
-        <a class="prev" href="@Url.Action("Index", "Activity" , new { page=ViewBag.PreviousPage })">
-            &lt; Previous
-        </a>
-    }
-
-    @if (ViewBag.HasNextPage)
-    {
-        <a class="next" href="@Url.Action("Index", "Activity" , new { page=ViewBag.NextPage })">
-            Next &gt;
-        </a>
-    }
-</p>
+<h2>SearchResult</h2>
 
 <div class="row">
     <div class="col-sm-6">

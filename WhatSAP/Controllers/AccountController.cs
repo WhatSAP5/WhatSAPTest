@@ -10,7 +10,7 @@ using WhatSAP.Models.Account;
 
 namespace WhatSAP.Controllers
 {
-    [Route("Account")]
+    [Route("account")]
     public class AccountController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signinManager;
@@ -22,7 +22,7 @@ namespace WhatSAP.Controllers
             _signinManager = signinManager;
         }
 
-        [HttpGet, Route("Login")]
+        [HttpGet, Route("login")]
         public IActionResult Login()
         {
             return View(new LoginViewModel());
@@ -65,13 +65,53 @@ namespace WhatSAP.Controllers
             return Redirect(returnUrl);
         }
 
+        [HttpGet]
+        public IActionResult ChooseStatus()
+        {
+            return View();
+        }
+
+        [HttpGet, Route("customer/register")]
         public IActionResult Register()
         {
             return View(new RegisterViewModel());
         }
 
-        [HttpPost]
+        [HttpPost, Route("customer/register")]
         public async Task<IActionResult> Register(RegisterViewModel registration)
+        {
+            if (!ModelState.IsValid)
+                return View(registration);
+
+            var newUser = new ApplicationUser
+            {
+                Email = registration.EmailAddress,
+                UserName = registration.EmailAddress,
+            };
+
+            var result = await _userManager.CreateAsync(newUser, registration.Password);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors.Select(x => x.Description))
+                {
+                    ModelState.AddModelError("", error);
+                }
+
+                return View();
+            }
+
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet, Route("client/register")]
+        public IActionResult ClientRegister()
+        {
+            return View(new ClientRegisterViewModel());
+        }
+
+        [HttpPost, Route("client/register")]
+        public async Task<IActionResult> ClientRegister(ClientRegisterViewModel registration)
         {
             if (!ModelState.IsValid)
                 return View(registration);
