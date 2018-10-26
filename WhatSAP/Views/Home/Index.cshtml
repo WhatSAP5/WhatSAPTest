@@ -1,22 +1,25 @@
-﻿@{
+﻿@model IEnumerable<WhatSAP.Models.Category>;
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
+<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000" style="margin:20px">
     <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
         <li data-target="#myCarousel" data-slide-to="2"></li>
         <li data-target="#myCarousel" data-slide-to="3"></li>
     </ol>
+    @*Image Size = 1200 * 350*@
     <div class="carousel-inner" role="listbox">
         <div class="item active">
-            <img src="~/images/banner1.svg" alt="ASP.NET" class="img-responsive" />
+            <img src="~/images/bookclub.jpg" style="width:1200px; height:350px" alt="Book Club" class="img-responsive" />
             <div class="carousel-caption" role="option">
                 <p>
-                    Learn how to build ASP.NET apps that can run anywhere.
+                    Centennial College Weekly Book Club <br />
                     <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
-                        Learn More
+                        See Details
+                        @*TODO: Should be replaced! Calling Details method in Activity Controller by passing the activity ID*@
                     </a>
                 </p>
             </div>
@@ -65,16 +68,45 @@
     </a>
 </div>
 
-<div class="row">
-    <div class="col-md-3">
-        <h2>Application uses</h2>
+<div class="row" style="margin:auto; width:50%; padding:10px;">
+    <div class="col-md-8">
+        <h2>Hot Activities</h2>
         <ul>
-            <li>Sample pages using ASP.NET Core MVC</li>
+            <li>Centennial College Book Club</li>
             <li>Theming using <a href="https://go.microsoft.com/fwlink/?LinkID=398939">Bootstrap</a></li>
         </ul>
     </div>
-    <div class="col-md-3">
-        <h2>How to</h2>
+    <div class="col-md-8">
+        <h2>Explore by Category</h2>
+
+        <div class="row">
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                if (i > 0 && i % 3 == 0)
+                {
+                @:</div><div class="row">
+                    <br />
+                }
+                <div class="col-xs-4 text-center">
+                    <a href="#"> @*TODO: Implement Sorting activity by category and link !*@
+                        <img src="~/images/categories/@(Model.ElementAt(i).CategoryId)_icon.svg" alt="@Model.ElementAt(i).CategoryName" width="75" height="75" /><br />
+                        @Model.ElementAt(i).CategoryName
+                    </a>
+                </div>
+            }
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <h2>Column 1</h2>
+                <p>Some text..</p>
+            </div>
+            <div class="column">
+                <h2>Column 2</h2>
+                <p>Some text..</p>
+            </div>
+        </div>
+
         <ul>
             <li><a href="https://go.microsoft.com/fwlink/?LinkID=398600">Add a Controller and View</a></li>
             <li><a href="https://go.microsoft.com/fwlink/?LinkId=699315">Manage User Secrets using Secret Manager.</a></li>
@@ -83,7 +115,8 @@
             <li><a href="https://go.microsoft.com/fwlink/?LinkId=699319">Target development, staging or production environment.</a></li>
         </ul>
     </div>
-    <div class="col-md-3">
+
+    <div class="col-md-8">
         <h2>Overview</h2>
         <ul>
             <li><a href="https://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
@@ -95,7 +128,7 @@
             <li><a href="https://go.microsoft.com/fwlink/?LinkID=699323">Read more on the documentation site</a></li>
         </ul>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-8">
         <h2>Run &amp; Deploy</h2>
         <ul>
             <li><a href="https://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>

@@ -7,30 +7,27 @@ namespace WhatSAP.Models
     public partial class WhatSAPContext : DbContext
     {
         public WhatSAPContext()
-        {
-        }
+        { }
 
         public WhatSAPContext(DbContextOptions<WhatSAPContext> options)
-             : base(options)
-        {
-        }
-
+            : base(options)
+        { }
 
         public virtual DbSet<Activity> Activity { get; set; }
         public virtual DbSet<Address> Address { get; set; }
         public virtual DbSet<Administrator> Administrator { get; set; }
         public virtual DbSet<Booking> Booking { get; set; }
+        public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Client> Client { get; set; }
         public virtual DbSet<Comment> Comment { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Payment> Payment { get; set; }
 
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer(@"Server=tcp:whatsap.database.windows.net,1433;Initial Catalog=WhatSAP;Persist Security Info=False;User ID=WhatsapAdmin;Password=Centennial@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
@@ -47,15 +44,22 @@ namespace WhatSAP.Models
                     .IsRequired()
                     .HasMaxLength(300);
 
+                entity.Property(e => e.Rate).HasColumnType("decimal(5, 1)");
+
                 entity.HasOne(d => d.Address)
                     .WithMany(p => p.Activity)
                     .HasForeignKey(d => d.AddressId)
-                    .HasConstraintName("FK__Activity__Addres__4C6B5938");
+                    .HasConstraintName("FK__Activity__Addres__6EC0713C");
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.Activity)
+                    .HasForeignKey(d => d.CategoryId)
+                    .HasConstraintName("FK__Activity__Catego__6DCC4D03");
 
                 entity.HasOne(d => d.Client)
                     .WithMany(p => p.Activity)
                     .HasForeignKey(d => d.ClientId)
-                    .HasConstraintName("FK__Activity__Client__4D5F7D71");
+                    .HasConstraintName("FK__Activity__Client__6FB49575");
             });
 
             modelBuilder.Entity<Address>(entity =>
@@ -92,11 +96,6 @@ namespace WhatSAP.Models
 
             modelBuilder.Entity<Booking>(entity =>
             {
-                entity.HasOne(d => d.Activity)
-                    .WithMany(p => p.Booking)
-                    .HasForeignKey(d => d.ActivityId)
-                    .HasConstraintName("FK__Booking__Activit__540C7B00");
-
                 entity.HasOne(d => d.Client)
                     .WithMany(p => p.Booking)
                     .HasForeignKey(d => d.ClientId)
@@ -111,6 +110,13 @@ namespace WhatSAP.Models
                     .WithMany(p => p.Booking)
                     .HasForeignKey(d => d.PaymentId)
                     .HasConstraintName("FK__Booking__Payment__55009F39");
+            });
+
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.Property(e => e.CategoryName)
+                    .IsRequired()
+                    .HasMaxLength(128);
             });
 
             modelBuilder.Entity<Client>(entity =>
@@ -140,11 +146,6 @@ namespace WhatSAP.Models
 
                 entity.Property(e => e.Rate).HasColumnType("decimal(5, 1)");
 
-                entity.HasOne(d => d.Activity)
-                    .WithMany(p => p.Comment)
-                    .HasForeignKey(d => d.ActivityId)
-                    .HasConstraintName("FK__Comment__Activit__59C55456");
-
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Comment)
                     .HasForeignKey(d => d.CustomerId)
@@ -153,7 +154,7 @@ namespace WhatSAP.Models
 
             modelBuilder.Entity<Customer>(entity =>
             {
-                entity.Property(e => e.DateOfBirth).HasColumnType("date");
+                entity.Property(e => e.DateOfBirth).HasColumnType("datetime");
 
                 entity.Property(e => e.Email)
                     .IsRequired()

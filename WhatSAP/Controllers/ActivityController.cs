@@ -47,7 +47,7 @@ namespace WhatSAP.Controllers
 
         // GET: Activity/Details/5
         [Route("{id}")]
-        public async Task<IActionResult> Details(long id, string key)
+        public async Task<IActionResult> Details(long id)
         {
             var activity = await _context.Activity
                 .Include(a => a.Address)

@@ -10,9 +10,16 @@ namespace WhatSAP.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly WhatSAPContext _context;
+        public HomeController(WhatSAPContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            var categories = _context.Category.ToArray();
+            return View(categories);
         }
 
         public IActionResult About()

@@ -4,64 +4,78 @@
     ViewData["Title"] = "Register";
 }
 
-<fieldset class="account">
-    <h2>New Customer Registration</h2>
+<h2>New Customer Registration</h2>
+<br />
+<form class="form-horizontal" role="form" asp-action="Register">
+    <div class="row">
+        <div class="col-md-5">
+            <fieldset>
+                <legend>Register Now</legend>
+                <div asp-validation-summary="All" class="text-danger"></div>
 
-    <br />
+                <div class="form-group">
+                    <label asp-for="FirstName" class="col-lg-2 control-label"></label>
+                    <div class="col-lg-10">
+                        <input type="text" asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
 
-    <form role="form" asp-action="Register">
-        <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="col-lg-2 control-label"></label>
+                    <div class="col-lg-10">
+                        <input type="text" asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <label asp-for="FirstName"></label>
-            <input type="text" asp-for="FirstName" class="form-control" />
-            <span asp-validation-for="FirstName" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="EmailAddress" class="col-lg-2 control-label"></label>
+                    <div class="col-lg-10">
+                        <input type="email" asp-for="EmailAddress" class="form-control" />
+                        <span asp-validation-for="EmailAddress" class="ftext-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password" class="col-lg-2 control-label"></label>
+                    <div class="col-lg-10">
+                        <input type="password" asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword" class="col-lg-2 control-label"></label>
+                    <div class="col-lg-10">
+                        <input type="password" asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateOfBirth" class="col-lg-2 control-label"></label>
+                    <div class="col-lg-10">
+                        <input type="date" asp-for="DateOfBirth" class="form-control" />
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Phone" class="col-lg-2 control-label"></label>
+                    <div class="col-lg-10">
+                        <input type="tel" asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+                <<div class="col-lg-10 col-lg-offset-2">
+                    <button type="reset" class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Register now</button>
+                </div>
+            </fieldset>
         </div>
-
-        <div class="form-group">
-            <label asp-for="LastName"></label>
-            <input type="text" asp-for="LastName" class="form-control" />
-            <span asp-validation-for="LastName" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="EmailAddress"></label>
-            <input type="email" asp-for="EmailAddress" class="form-control" />
-            <span asp-validation-for="EmailAddress" class="ftext-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Password"></label>
-            <input type="password" asp-for="Password" class="form-control" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="ConfirmPassword"></label>
-            <input type="password" asp-for="ConfirmPassword" class="form-control" />
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="DateOfBirth"></label>
-            <input type="date" asp-for="DateOfBirth" class="form-control" />
-            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Phone"></label>
-            <input type="tel" asp-for="Phone" class="form-control" />
-            <span asp-validation-for="Phone" class="text-danger"></span>
-        </div>
-
-        <br />
-        <div>
-            <label>&nbsp;</label>
-            <button type="submit" class="btn btn-primary">Register now</button>
-        </div>
-
-    </form>
-</fieldset>
+    </div>
+</form>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
