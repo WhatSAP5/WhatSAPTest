@@ -24,16 +24,16 @@ namespace WhatSAP.Controllers
         [Route("")]
         public IActionResult Index(int page = 0)
         {
-            //var pageSize = 2;
-            //var totalActivities = _context.Activity.Count();
-            //var totalPages = totalActivities / pageSize;
-            //var previousPage = page - 1;
-            //var nextPage = page + 1;
+            var pageSize = 2;
+            var totalActivities = _context.Activity.Count();
+            var totalPages = totalActivities / pageSize;
+            var previousPage = page - 1;
+            var nextPage = page + 1;
 
-            //ViewBag.PreviousPage = previousPage;
-            //ViewBag.HasPreviousPage = previousPage >= 0;
-            //ViewBag.NextPage = nextPage;
-            //ViewBag.HasNextPage = nextPage < totalPages;
+            ViewBag.PreviousPage = previousPage;
+            ViewBag.HasPreviousPage = previousPage >= 0;
+            ViewBag.NextPage = nextPage;
+            ViewBag.HasNextPage = nextPage < totalPages;
 
             //var activity = _context.Activity.OrderBy(x => x.Rate).Skip(pageSize * page).Take(pageSize).ToArray();
 
@@ -187,6 +187,50 @@ namespace WhatSAP.Controllers
         private bool ActivityExists(long id)
         {
             return _context.Activity.Any(e => e.ActivityId == id);
+        }
+
+        //Search by Title
+        // SEARCH: Activity/Search/{keyworkd}
+        [HttpPost, Route("search/{keyword}")]
+        public IActionResult SearchResult(string keyword)
+        {
+            if (keyword == null)
+            {
+                return NotFound();
+            }
+
+            var result = _context.Activity.Where(x => x.ActivityName.Contains(keyword)).ToArray();
+            return View(result);
+        }
+
+        //Search by Price
+        // SEARCH: Activity/Search/{keyworkd}
+        [HttpPost, Route("search/{keyword}")]
+        public IActionResult SearchResult(double price)
+        {
+            var result = _context.Activity.Where(x => x.Price <= price).ToArray();
+            return View(result);
+        }
+
+        [HttpGet, Route("search/{category}")]
+        public IActionResult SearchResult(long? categoryId, string category)
+        {
+            if (categoryId == null)
+            {
+                return NotFound();
+            }
+            
+            var result = _context.Activity.Where(x => x.CategoryId == categoryId).ToArray();
+            return View(result);
+        }
+
+        //Search by Keyword
+        // SEARCH: Activity/Search/{category}
+        [HttpPost, Route("search/{category}")]
+        public IActionResult SearchResult(long categoryId, string category)
+        {
+            var result = _context.Activity.Where(x => x.CategoryId == categoryId).ToArray();
+            return View(result);
         }
     }
 }

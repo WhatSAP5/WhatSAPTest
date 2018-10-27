@@ -1,10 +1,12 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Choose Status";
 }
 
 <h2>Choose Status to Register</h2>
 <hr />
 
-
-
+<div class="row">
+    <a class="btn btn-primary btn-lg" href="@Url.Action("Register", "Account")" title="Register as a customer">Customer</a>
+    &nbsp;
+    <a class="btn btn-primary btn-lg" href="@Url.Action("ClientRegister", "Account")" title="Register as a client">Client</a>
+</div>
