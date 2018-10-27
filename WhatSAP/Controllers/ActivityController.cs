@@ -33,11 +33,11 @@ namespace WhatSAP.Controllers
             ViewBag.PreviousPage = previousPage;
             ViewBag.HasPreviousPage = previousPage >= 0;
             ViewBag.NextPage = nextPage;
-            ViewBag.HasNextPage = nextPage < totalPages;
+            ViewBag.HasNextPage = nextPage <= totalPages;
 
-            //var activity = _context.Activity.OrderBy(x => x.Rate).Skip(pageSize * page).Take(pageSize).ToArray();
+            var activity = _context.Activity.OrderBy(x => x.Rate).Skip(pageSize * page).Take(pageSize).ToArray();
 
-            var activity = _context.Activity.ToArray();
+            //var activity = _context.Activity.ToArray();
 
             return View(activity);
 
